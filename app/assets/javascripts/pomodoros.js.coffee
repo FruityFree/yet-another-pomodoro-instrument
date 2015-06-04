@@ -1,10 +1,13 @@
 root = exports ? this
 
 root.start_pomodoro = (element) ->
+  sequence = [5,2,5,2,5,4]
+
   element.show()
 
   root.timer_element = element
-  root.seconds_left = 600
+  root.seconds_left = 3
+  root.current_segment = 0
 
   update_timer()
 
@@ -12,7 +15,11 @@ root.start_pomodoro = (element) ->
 
 countdown = ->
   root.seconds_left -= 1
-  update_timer()
+  if root.seconds_left == 0
+    clearInterval(root.interval)
+    update_timer()
+  else
+    update_timer()
 
 update_timer = ->
   root.timer_element.html(seconds_to_minuts(root.seconds_left))
