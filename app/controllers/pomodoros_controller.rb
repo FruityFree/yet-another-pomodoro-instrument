@@ -3,7 +3,7 @@ class PomodorosController < ApplicationController
   end
 
   def start
-    @sequence = Pomodoro::SEQUENCE
+    @sequence = Pomodoro.sequence
   end
 
   def pause

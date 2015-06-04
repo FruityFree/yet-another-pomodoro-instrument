@@ -1,15 +1,12 @@
 class Pomodoro < ActiveRecord::Base
-  SEQUENCE = {name: "Pomodoro"}
-
-  # has_many :pauses
-
+  def self.sequence
+    [{name: "Pomodoro", duration: 2},
+    {name: "Pause", duration: 5},
+    {name: "Pomodoro", duration: 2},
+    {name: "Pause", duration: 5},
+    {name: "Pomodoro", duration: 2},
+    {name: "Pause", duration: 5},
+    {name: "Pomodoro", duration: 2},
+    {name: "Pause", duration: 5}]
+  end
 end
-
-# ,
-# {name: "Pause", duration: 5},
-# {name: "Pomodoro", duration: "25"},
-# {name: "Pause", duration: "5"},
-# {name: "Pomodoro", duration: "25"},
-# {name: "Pause", duration: "5"},
-# {name: "Pomodoro", duration: "25"},
-# {name: "Pause", duration: "15"}

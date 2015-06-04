@@ -1,46 +1,67 @@
 root = exports ? this
+ready = ->
+  root.timer_element = $("#timer")
+  root.sequence_table = $("#sequence-table tbody")
+  root.sequence = [{name: "pomodoro", duration: 5},{name: "pause", duration: 5},{name: "pomodoro", duration: 5}]
 
-root.reinitialize_pomodoro = ->
-  return
+  root.reinitialize_pomodoro = ->
+    return
 
-root.start_pomodoro = (element) ->
-  root.sequence = [1,2,1,2,1,4]
+  root.start_pomodoro = (sequence) ->
+    root.sequence = sequence
+    root.current_segment = 0
 
-  root.timer_element = element
-  root.seconds_left = 3
-  root.current_segment = 0
-  update_timer()
+    clear_sequence_table()
+    draw_sequence_table()
 
-  root.interval = setInterval(countdown, "1000")
-
-root.pause_pomodoro = ->
-  clearInterval(root.interval)
-
-root.resume_pomodoro = ->
-  root.interval = setInterval(countdown, "1000")
-
-countdown = ->
-  root.seconds_left -= 1
-  if root.seconds_left <= 0
-    root.current_segment += 1
-    if root.current_segment == root.sequence.length
-      clearInterval(root.interval)
-      pomodoro_finished()
-    else
-      root.seconds_left = root.sequence[root.current_segment]
-      update_timer()
-  else
+    root.seconds_left = 3
     update_timer()
 
-update_timer = ->
-  root.timer_element.html(seconds_to_minuts(root.seconds_left))
+    root.interval = setInterval(countdown, "1000")
 
-pomodoro_finished = ->
-  root.timer_element.html("Pomodoro finished!")
+  root.pause_pomodoro = ->
+    clearInterval(root.interval)
 
-seconds_to_minuts = (seconds) ->
-  sec = seconds % 60
-  min = (seconds-sec)/60
-  sec = "0#{sec}" if sec.toString().length==1
-  min = "0#{min}" if min.toString().length==1
-  "#{min}:#{sec}"
+  root.resume_pomodoro = ->
+    root.interval = setInterval(countdown, "1000")
+
+  draw_sequence_table = ->
+    for segment in root.sequence
+      row = "<tr>"
+      row += "<td>#{segment.name}</td>"
+      row += "<td>#{segment.duration} min</td>"
+      row += "</tr>"
+      $(row).appendTo(root.sequence_table)
+  clear_sequence_table = ->
+    tr.remove() for tr in root.sequence_table.children("tr")[1..-1]
+  draw_sequence_table()
+
+
+  countdown = ->
+    root.seconds_left -= 1
+    if root.seconds_left <= 0
+      root.current_segment += 1
+      if root.current_segment == root.sequence.length
+        clearInterval(root.interval)
+        pomodoro_finished()
+      else
+        root.seconds_left = root.sequence[root.current_segment].duration
+        update_timer()
+    else
+      update_timer()
+
+  update_timer = ->
+    root.timer_element.html(seconds_to_minuts(root.seconds_left))
+
+  pomodoro_finished = ->
+    root.timer_element.html("Pomodoro finished!")
+
+  seconds_to_minuts = (seconds) ->
+    sec = seconds % 60
+    min = (seconds-sec)/60
+    sec = "0#{sec}" if sec.toString().length==1
+    min = "0#{min}" if min.toString().length==1
+    "#{min}:#{sec}"
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
