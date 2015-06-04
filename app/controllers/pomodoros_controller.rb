@@ -8,4 +8,7 @@ class PomodorosController < ApplicationController
 
   def pause
   end
+
+  def resume
+  end
 end

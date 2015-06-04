@@ -13,6 +13,12 @@ root.start_pomodoro = (element) ->
 
   root.interval = setInterval(countdown, "1000")
 
+root.pause_pomodoro = ->
+  clearInterval(root.interval)
+
+root.resume_pomodoro = ->
+  root.interval = setInterval(countdown, "1000")
+
 countdown = ->
   root.seconds_left -= 1
   if root.seconds_left <= 0
@@ -38,7 +44,3 @@ seconds_to_minuts = (seconds) ->
   sec = "0#{sec}" if sec.toString().length==1
   min = "0#{min}" if min.toString().length==1
   "#{min}:#{sec}"
-
-root.pause_pomodoro = ->
-  console.log "hello2"
-  return
