@@ -1,9 +1,15 @@
-<%= link_to "Start new pomodoro", "/pomodoros/start", remote: true %>
+<div id="control-buttons">
+  <div id="start-button">
+    <%= link_to "Start new pomodoro", "/pomodoros/start", remote: true %>
+  </div>
+  <div id="pause-button">
+    <%= link_to "Pause", "/pomodoros/pause", remote: true   %>
+  </div>
 
-<%= link_to "Pause", "/pomodoros/pause", remote: true   %>
-
-<%= link_to "Resume", "/pomodoros/resume", remote: true %>
-
+  <div id="resume-button">
+    <%= link_to "Resume", "/pomodoros/resume", remote: true %>
+  </div>
+</div>
 <div id="timer">
   Hello
 </div>

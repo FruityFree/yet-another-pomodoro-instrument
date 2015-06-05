@@ -1,6 +1,17 @@
 source 'https://rubygems.org'
 
+group :development do
+  gem 'guard'
+end
 
+group  :test do
+  gem 'spring-commands-rspec'
+  gem 'guard-rspec'
+  gem "factory_girl_rails", "~> 4.0"
+end
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.8'
 # Use sqlite3 as the database for Active Record
@@ -37,4 +48,3 @@ gem 'spring',        group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-

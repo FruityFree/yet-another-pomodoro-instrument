@@ -1,6 +1,10 @@
 // #timer{
 //   display:none;
 // }
-// #sequence-table{
-//   display:none;
-// }
+#sequence-table{
+  display:none;
+  .current{
+    background: #d43;
+    color: #def;
+  }
+}
