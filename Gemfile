@@ -8,6 +8,7 @@ group  :test do
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
   gem "factory_girl_rails", "~> 4.0"
+  gem 'timecop'
 end
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'

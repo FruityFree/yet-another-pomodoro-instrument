@@ -4,10 +4,25 @@ class PomodoroBlock < ActiveRecord::Base
 
   def sequence
     segments
-    # [Segment.pomodoro, Segment.break]*3 + [Segment.pomodoro, Segment.long_break]
   end
 
+  def start
+    segments.first.start
+  end
+
+  private
+
   def attach_segments
-    [Segment.pomodoro, Segment.break]*3 + [Segment.pomodoro, Segment.long_break]
+    segments = [
+      Segment.pomodoro,
+      Segment.break,
+      Segment.pomodoro,
+      Segment.break,
+      Segment.pomodoro,
+      Segment.break,
+      Segment.pomodoro,
+      Segment.long_break,
+    ]
+    segments.each{|s| s.update_attributes(pomodoro_block_id:id)}
   end
 end

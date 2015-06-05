@@ -3,11 +3,14 @@ root = exports ? this
 ready = ->
   root.timer_element = $("#timer")
   root.sequence_table = $("#sequence-table tbody")
-  # root.sequence = [{name: "pomodoro", duration: 5},{name: "pause", duration: 5},{name: "pomodoro", duration: 5}]
+  # root.sequence = [{name: "pomodoro", duration: 5},
+  # {name: "pause", duration: 5},
+  # {name: "pomodoro", duration: 5}]
+  sec_in_min = 1 #can vary for testing purpose
 
   root.reinitialize_pomodoro = ->
     return
-    
+
 
   root.start_pomodoro = (sequence) ->
     root.sequence = sequence
@@ -16,7 +19,7 @@ ready = ->
     clear_sequence_table()
     draw_sequence_table()
 
-    root.seconds_left = root.sequence[0].duration
+    root.seconds_left = root.sequence[0].duration*sec_in_min
     update_timer()
 
     root.interval = setInterval(countdown, "1000")
@@ -48,7 +51,7 @@ ready = ->
         clearInterval(root.interval)
         pomodoro_finished()
       else
-        root.seconds_left = root.sequence[root.current_segment].duration
+        root.seconds_left = root.sequence[root.current_segment].duration*sec_in_min
         root.sequence_table.children("tr").eq(root.current_segment).removeClass("current")
         root.sequence_table.children("tr").eq(root.current_segment+1).addClass("current")
         update_timer()
