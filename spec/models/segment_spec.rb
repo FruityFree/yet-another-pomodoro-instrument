@@ -9,7 +9,7 @@ describe Segment do
     end
   end
 
-  fit "counts end" do
+  it "counts end" do
     Timecop.freeze do
       s = described_class.create(duration: 5)
       s.start

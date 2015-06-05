@@ -10,19 +10,38 @@ class PomodoroBlock < ActiveRecord::Base
     segments.first.start
   end
 
+  def recount_segments
+    if !segments.first.start_at
+      raise "pomodoro block hasn't started"
+    else
+      
+    end
+  end
+
   private
 
   def attach_segments
     segments = [
-      Segment.pomodoro,
-      Segment.break,
-      Segment.pomodoro,
-      Segment.break,
-      Segment.pomodoro,
-      Segment.break,
-      Segment.pomodoro,
-      Segment.long_break,
+      pomodoro,
+      short_break,
+      pomodoro,
+      short_break,
+      pomodoro,
+      short_break,
+      pomodoro,
+      long_break,
     ]
-    segments.each{|s| s.update_attributes(pomodoro_block_id:id)}
+  end
+
+  def pomodoro
+    Segment.pomodoro(id)
+  end
+
+  def short_break
+    Segment.short_break(id)
+  end
+
+  def long_break
+    Segment.long_break(id)
   end
 end

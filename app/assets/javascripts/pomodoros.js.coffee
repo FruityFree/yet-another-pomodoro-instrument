@@ -33,7 +33,7 @@ ready = ->
   draw_sequence_table = ->
     for segment in root.sequence
       row = "<tr>"
-      row += "<td>#{segment.name}</td>"
+      row += "<td>#{segment.type_name}</td>"
       row += "<td>#{segment.duration} min</td>"
       row += "</tr>"
       $(row).appendTo(root.sequence_table)

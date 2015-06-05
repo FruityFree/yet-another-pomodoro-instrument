@@ -1,16 +1,22 @@
 class Segment < ActiveRecord::Base
   belongs_to :pomodoro_block
 
-  def self.pomodoro
-    create(type_name: "Pomodoro", duration: 25)
+  def self.pomodoro(pomodoro_block_id=nil)
+    create( type_name: "Pomodoro",
+            duration: 25,
+            pomodoro_block_id: pomodoro_block_id)
   end
 
-  def self.break
-    create(type_name: "Break", duration: 5)
+  def self.short_break(pomodoro_block_id=nil)
+    create( type_name: "Break",
+            duration: 5,
+            pomodoro_block_id: pomodoro_block_id)
   end
 
-  def self.long_break
-    create(type_name: "Long Break", duration: 15)
+  def self.long_break(pomodoro_block_id=nil)
+    create( type_name: "Long Break",
+            duration: 15,
+            pomodoro_block_id: pomodoro_block_id)
   end
 
   def start
