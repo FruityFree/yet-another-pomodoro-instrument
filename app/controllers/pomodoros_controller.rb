@@ -24,5 +24,6 @@ class PomodorosController < ApplicationController
 
   def cancel
     PomodoroBlock.active_pomodoro.cancel
+    @sequence = PomodoroBlock.active_pomodoro.sequence
   end
 end

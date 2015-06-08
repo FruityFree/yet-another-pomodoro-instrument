@@ -45,6 +45,13 @@ ready = ->
     $("#pause-button").show()
     $("#resume-button").hide()
 
+  root.cancel_pomodoro = (sequence) ->
+    clearInterval(root.interval)
+    root.sequence = sequence
+    clear_sequence_table()
+    draw_sequence_table(-2)
+
+
   draw_sequence_table =(current_index=1) ->
     for segment in root.sequence
       row = "<tr>"
@@ -78,6 +85,7 @@ ready = ->
 
   pomodoro_finished = ->
     root.timer_element.html("Pomodoro finished!")
+    root.sequence_table.children("tr").last().removeClass("current")
 
   seconds_to_minuts = (seconds) ->
     sec = seconds % 60
