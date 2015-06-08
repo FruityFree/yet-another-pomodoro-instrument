@@ -56,15 +56,25 @@ ready = ->
 
   draw_sequence_table =(current_index=1) ->
     for segment in root.sequence
+      console.log segment
       row = "<tr>"
       row += "<td>#{segment.type_name}</td>"
       row += "<td>#{segment.duration/60} min</td>"
+      row += "<td>#{format_time(segment.start_at)}</td>"
+      row += "<td>#{format_time(segment.end_at)}</td>"
       row += "</tr>"
       $(row).appendTo(root.sequence_table)
     root.sequence_table.children("tr").eq(current_segment+1).addClass("current")
     root.sequence_table.parent().show()
   clear_sequence_table = ->
     tr.remove() for tr in root.sequence_table.children("tr")[1..-1]
+
+  format_time = (datetime)->
+    if datetime
+      dt = new Date(datetime)
+      "#{dt.getHours()}:#{dt.getMinutes()}"
+    else
+      ""
 
 
   countdown = ->
