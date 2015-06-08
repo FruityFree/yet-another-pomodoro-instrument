@@ -1,6 +1,8 @@
 root = exports ? this
 
 ready = ->
+  root.audio = new Audio('ding.wav')
+
   root.timer_element = $("#timer")
   root.sequence_table = $("#sequence-table tbody")
   # root.sequence = [{name: "pomodoro", duration: 5},
@@ -68,6 +70,7 @@ ready = ->
   countdown = ->
     root.seconds_left -= 1
     if root.seconds_left <= 0
+      audio.play()
       root.current_segment += 1
       if root.current_segment == root.sequence.length
         clearInterval(root.interval)
