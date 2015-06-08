@@ -6,9 +6,9 @@ class Segment < ActiveRecord::Base
   LONG_BREAK_DURATION = 900
 
   #FOR TEST
-  POMODORO_DURATION   = 5
-  BREAK_DURATION      = 3
-  LONG_BREAK_DURATION = 4
+  # POMODORO_DURATION   = 5
+  # BREAK_DURATION      = 3
+  # LONG_BREAK_DURATION = 4
 
   has_many :pauses
 

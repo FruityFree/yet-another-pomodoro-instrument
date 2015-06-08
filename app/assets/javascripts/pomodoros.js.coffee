@@ -2,9 +2,9 @@ root = exports ? this
 
 ready = ->
   root.audio = new Audio('ding.wav')
-
   root.timer_element = $("#timer")
   root.sequence_table = $("#sequence-table tbody")
+
   # root.sequence = [{name: "pomodoro", duration: 5},
   # {name: "pause", duration: 5},
   # {name: "pomodoro", duration: 5}]
@@ -84,7 +84,9 @@ ready = ->
       update_timer()
 
   update_timer = ->
-    root.timer_element.html(seconds_to_minuts(root.seconds_left))
+    time = seconds_to_minuts(root.seconds_left)
+    document.title = "#{time}, #{root.sequence[root.current_segment].type_name}"
+    root.timer_element.html(time)
 
   pomodoro_finished = ->
     root.timer_element.html("Pomodoro finished!")
@@ -96,6 +98,15 @@ ready = ->
     sec = "0#{sec}" if sec.toString().length==1
     min = "0#{min}" if min.toString().length==1
     "#{min}:#{sec}"
+
+  $(window).keypress((e) ->
+    if e.which == 32
+      if $("#pause-button").is(":visible")
+        $("#pause-button a").click()
+      else
+        $("#resume-button a").click()
+  )
+
 
 $(document).ready(ready)
 $(document).on('page:load', ready)
