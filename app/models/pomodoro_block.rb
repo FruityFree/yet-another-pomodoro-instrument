@@ -1,6 +1,12 @@
 class PomodoroBlock < ActiveRecord::Base
   has_many :segments
+  before_create :cancel_previous
   after_create :attach_segments
+
+
+  def self.active_pomodoro
+    last
+  end
 
   def sequence
     segments
@@ -10,9 +16,17 @@ class PomodoroBlock < ActiveRecord::Base
     segments.first.start
   end
 
+  def cancel
+    recount_segments
+    segments.select{|s| s.end_at.nil?}.each{|s| s.destroy}
+    destroy if segments.count.zero?
+  end
+
   def restore_data
     recount_segments
-    raise "pomodoro block hasn't started" if !segments.first.start_at
+
+    return if !segments.first.start_at
+
     current_segment_index = segments.select{|s| s.start_at}.count - 1
     current_segment = segments[current_segment_index]
 
@@ -23,19 +37,17 @@ class PomodoroBlock < ActiveRecord::Base
   end
 
   def recount_segments
-    if !segments.first.start_at
-      raise "pomodoro block hasn't started"
-    else
-      now = DateTime.now
-      segments.each_with_index do |segment, i|
-        expected_end = segment.start_at + segment.duration.seconds
-        if expected_end > now
-          break
-        else
-          segment.update_attributes(end_at: expected_end)
-          if segments[i+1]
-            segments[i+1].update_attributes(start_at: expected_end)
-          end
+    return if !segments.first.start_at
+
+    now = DateTime.now
+    segments.each_with_index do |segment, i|
+      expected_end = segment.start_at + segment.duration.seconds
+      if expected_end > now
+        break
+      else
+        segment.update_attributes(end_at: expected_end)
+        if segments[i+1]
+          segments[i+1].update_attributes(start_at: expected_end)
         end
       end
     end
@@ -43,17 +55,19 @@ class PomodoroBlock < ActiveRecord::Base
 
   private
 
+  def cancel_previous
+    PomodoroBlock.active_pomodoro.cancel
+  end
+
   def attach_segments
-    segments = [
-      pomodoro,
+    [ pomodoro,
       short_break,
       pomodoro,
       short_break,
       pomodoro,
       short_break,
       pomodoro,
-      long_break,
-    ]
+      long_break]
   end
 
   def pomodoro

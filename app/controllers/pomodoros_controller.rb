@@ -1,7 +1,7 @@
 class PomodorosController < ApplicationController
   def index
     if PomodoroBlock.any?
-      pb = PomodoroBlock.last
+      pb = PomodoroBlock.active_pomodoro
       @restore_data = pb.restore_data
       @sequence = pb.sequence
     end
@@ -18,5 +18,9 @@ class PomodorosController < ApplicationController
   end
 
   def resume
+  end
+
+  def cancel
+    PomodoroBlock.active_pomodoro.cancel
   end
 end

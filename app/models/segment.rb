@@ -4,6 +4,12 @@ class Segment < ActiveRecord::Base
   POMODORO_DURATION   = 1500
   BREAK_DURATION      = 300
   LONG_BREAK_DURATION = 900
+
+  #FOR TEST
+  # POMODORO_DURATION   = 5
+  # BREAK_DURATION      = 3
+  # LONG_BREAK_DURATION = 4
+
   def self.pomodoro(pomodoro_block_id=nil)
     create( type_name: "Pomodoro",
             duration: POMODORO_DURATION,
