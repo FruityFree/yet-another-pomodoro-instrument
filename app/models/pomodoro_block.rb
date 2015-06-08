@@ -14,8 +14,22 @@ class PomodoroBlock < ActiveRecord::Base
     if !segments.first.start_at
       raise "pomodoro block hasn't started"
     else
-      
+      now = DateTime.now
+      segments.each_with_index do |segment, i|
+        expected_end = segment.start_at + segment.duration.minutes
+        if expected_end > now
+          break
+        else
+          segment.update_attributes(end_at: expected_end)
+          if segments[i+1]
+            segments[i+1].update_attributes(start_at: expected_end)
+          end
+        end
+      end
     end
+  end
+
+  def restore_data
   end
 
   private
