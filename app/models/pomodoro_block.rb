@@ -16,6 +16,14 @@ class PomodoroBlock < ActiveRecord::Base
     segments.first.start
   end
 
+  def pause
+    current_segment.pause
+  end
+
+  def resume
+    current_segment.resume
+  end
+
   def cancel
     recount_segments
     segments.select{|s| s.end_at.nil?}.each{|s| s.destroy}
@@ -31,9 +39,13 @@ class PomodoroBlock < ActiveRecord::Base
     current_segment = segments[current_segment_index]
 
     seconds_pass = DateTime.now.to_i - current_segment.start_at.to_i
-    time_left = current_segment.duration - seconds_pass
+    time_left = current_segment.full_duration - seconds_pass
     time_left = 0 if time_left < 0
-    {current_segment: current_segment_index, time_left: time_left}
+    {
+      current_segment: current_segment_index,
+      time_left: time_left,
+      paused: current_segment.paused?
+    }
   end
 
   def recount_segments
@@ -41,7 +53,7 @@ class PomodoroBlock < ActiveRecord::Base
 
     now = DateTime.now
     segments.each_with_index do |segment, i|
-      expected_end = segment.start_at + segment.duration.seconds
+      expected_end = segment.start_at + segment.full_duration.seconds
       if expected_end > now
         break
       else
@@ -53,10 +65,14 @@ class PomodoroBlock < ActiveRecord::Base
     end
   end
 
+  def current_segment
+    segments.select{|s| s.start_at}.try(:first)
+  end
+
   private
 
   def cancel_previous
-    PomodoroBlock.active_pomodoro.cancel
+    PomodoroBlock.active_pomodoro.try(:cancel)
   end
 
   def attach_segments

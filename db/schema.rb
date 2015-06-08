@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150605110234) do
+ActiveRecord::Schema.define(version: 20150608144332) do
+
+  create_table "pauses", force: true do |t|
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer  "segment_id"
+  end
 
   create_table "pomodoro_blocks", force: true do |t|
     t.datetime "created_at"

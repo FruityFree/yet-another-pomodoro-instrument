@@ -19,6 +19,7 @@ ready = ->
     update_timer()
 
     root.interval = setInterval(countdown, "1000")
+    root.pause_pomodoro() if restore_data.paused
 
 
   root.start_pomodoro = (sequence) ->
@@ -36,9 +37,13 @@ ready = ->
 
   root.pause_pomodoro = ->
     clearInterval(root.interval)
+    $("#pause-button").hide()
+    $("#resume-button").show()
 
   root.resume_pomodoro = ->
     root.interval = setInterval(countdown, "1000")
+    $("#pause-button").show()
+    $("#resume-button").hide()
 
   draw_sequence_table =(current_index=1) ->
     for segment in root.sequence

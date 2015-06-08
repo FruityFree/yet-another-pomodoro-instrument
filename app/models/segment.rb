@@ -10,6 +10,8 @@ class Segment < ActiveRecord::Base
   # BREAK_DURATION      = 3
   # LONG_BREAK_DURATION = 4
 
+  has_many :pauses
+
   def self.pomodoro(pomodoro_block_id=nil)
     create( type_name: "Pomodoro",
             duration: POMODORO_DURATION,
@@ -30,6 +32,29 @@ class Segment < ActiveRecord::Base
 
   def start
     update_attributes(start_at: DateTime.now)
+  end
+
+  def pause
+    Pause.create(segment_id:id)
+  end
+
+  def paused?
+    !pauses.empty? && pauses.last.end_at.nil?
+  end
+
+  def full_duration
+    duration + pauses.inject(0){|sum,pause| sum+pause.duration}
+  end
+
+  def resume
+    last_pause = pauses.last
+    if last_pause.nil?
+      raise "haven't paused yet"
+    elsif !last_pause.end_at.nil?
+      raise "already resumed"
+    else
+      last_pause.resume
+    end
   end
 
   def count_end

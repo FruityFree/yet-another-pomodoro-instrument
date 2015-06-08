@@ -9,7 +9,7 @@ describe PomodoroBlock do
     expect(@pb.segments.count).to eq(8)
   end
 
-  fit "cancels" do
+  it "cancels" do
     Timecop.freeze do
       @pb.start
       Timecop.travel(DateTime.now+(@pb.segments[0].duration+1).seconds)

@@ -15,9 +15,11 @@ class PomodorosController < ApplicationController
   end
 
   def pause
+    PomodoroBlock.active_pomodoro.pause
   end
 
   def resume
+    PomodoroBlock.active_pomodoro.resume
   end
 
   def cancel
