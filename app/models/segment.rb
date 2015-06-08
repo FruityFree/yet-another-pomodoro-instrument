@@ -3,19 +3,19 @@ class Segment < ActiveRecord::Base
 
   def self.pomodoro(pomodoro_block_id=nil)
     create( type_name: "Pomodoro",
-            duration: 25,
+            duration: 1500,
             pomodoro_block_id: pomodoro_block_id)
   end
 
   def self.short_break(pomodoro_block_id=nil)
     create( type_name: "Break",
-            duration: 5,
+            duration: 300,
             pomodoro_block_id: pomodoro_block_id)
   end
 
   def self.long_break(pomodoro_block_id=nil)
     create( type_name: "Long Break",
-            duration: 15,
+            duration: 900,
             pomodoro_block_id: pomodoro_block_id)
   end
 

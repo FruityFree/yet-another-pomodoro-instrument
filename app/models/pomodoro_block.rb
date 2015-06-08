@@ -30,6 +30,10 @@ class PomodoroBlock < ActiveRecord::Base
   end
 
   def restore_data
+    raise "pomodoro block hasn't started" if !segments.first.start_at
+    last_segment_index = segments.select{|s| s.end_at}.count
+    # time_left = segments[last_segment_index].duration.minutes -
+    # {last_segment: last_segment_index, time_left: }
   end
 
   private
