@@ -1,3 +1,11 @@
+<% if @restore_data %>
+  <script type="text/javascript">
+    $(function(){
+      reinitialize_pomodoro(<%= @sequence.to_json.html_safe %>, <%= @restore_data.to_json.html_safe %>);
+    });
+  </script>
+<% end %>
+
 <div id="control-buttons">
   <div id="start-button">
     <%= link_to "Start new pomodoro", "/pomodoros/start", remote: true %>

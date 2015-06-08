@@ -8,8 +8,17 @@ ready = ->
   # {name: "pomodoro", duration: 5}]
   # sec_in_min = 1 #can vary for testing purpose
 
-  root.reinitialize_pomodoro = ->
-    return
+  root.reinitialize_pomodoro = (sequence, restore_data) ->
+    root.sequence = sequence
+    root.current_segment = restore_data.current_segment
+
+    clear_sequence_table()
+    draw_sequence_table(restore_data.current_segment)
+
+    root.seconds_left = restore_data.time_left
+    update_timer()
+
+    root.interval = setInterval(countdown, "1000")
 
 
   root.start_pomodoro = (sequence) ->
@@ -22,6 +31,7 @@ ready = ->
     root.seconds_left = root.sequence[0].duration
     update_timer()
 
+    clearInterval(root.interval)
     root.interval = setInterval(countdown, "1000")
 
   root.pause_pomodoro = ->
@@ -30,14 +40,14 @@ ready = ->
   root.resume_pomodoro = ->
     root.interval = setInterval(countdown, "1000")
 
-  draw_sequence_table = ->
+  draw_sequence_table =(current_index=1) ->
     for segment in root.sequence
       row = "<tr>"
       row += "<td>#{segment.type_name}</td>"
       row += "<td>#{segment.duration/60} min</td>"
       row += "</tr>"
       $(row).appendTo(root.sequence_table)
-    root.sequence_table.children("tr").eq(1).addClass("current")
+    root.sequence_table.children("tr").eq(current_segment+1).addClass("current")
     root.sequence_table.parent().show()
   clear_sequence_table = ->
     tr.remove() for tr in root.sequence_table.children("tr")[1..-1]

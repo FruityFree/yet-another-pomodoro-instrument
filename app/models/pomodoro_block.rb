@@ -10,13 +10,25 @@ class PomodoroBlock < ActiveRecord::Base
     segments.first.start
   end
 
+  def restore_data
+    recount_segments
+    raise "pomodoro block hasn't started" if !segments.first.start_at
+    current_segment_index = segments.select{|s| s.start_at}.count - 1
+    current_segment = segments[current_segment_index]
+
+    seconds_pass = DateTime.now.to_i - current_segment.start_at.to_i
+    time_left = current_segment.duration - seconds_pass
+    time_left = 0 if time_left < 0
+    {current_segment: current_segment_index, time_left: time_left}
+  end
+
   def recount_segments
     if !segments.first.start_at
       raise "pomodoro block hasn't started"
     else
       now = DateTime.now
       segments.each_with_index do |segment, i|
-        expected_end = segment.start_at + segment.duration.minutes
+        expected_end = segment.start_at + segment.duration.seconds
         if expected_end > now
           break
         else
@@ -27,13 +39,6 @@ class PomodoroBlock < ActiveRecord::Base
         end
       end
     end
-  end
-
-  def restore_data
-    raise "pomodoro block hasn't started" if !segments.first.start_at
-    last_segment_index = segments.select{|s| s.end_at}.count
-    # time_left = segments[last_segment_index].duration.minutes -
-    # {last_segment: last_segment_index, time_left: }
   end
 
   private
