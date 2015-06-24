@@ -12,6 +12,28 @@ class Segment < ActiveRecord::Base
 
   has_many :pauses
 
+  scope :pomodoros, -> {where(type_name: "Pomodoro")}
+  scope :finished, -> {where.not(end_at:nil)}
+
+  def self.count_duration
+    @relation.inject(0){|sum,s| sum+s.duration}
+  end
+
+  def self.count_duration_in_minutes
+    count_duration/60.0
+  end
+
+  def self.count_duration_in_hours
+    count_duration/3600.0
+  end
+
+  # def self.finished
+  #   all.select{|s| !s.end_at.nil?}
+  # end
+
+
+
+
   def self.pomodoro(pomodoro_block_id=nil)
     create( type_name: "Pomodoro",
             duration: POMODORO_DURATION,
