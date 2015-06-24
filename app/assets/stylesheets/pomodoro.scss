@@ -1,14 +1,58 @@
 // #timer{
 //   display:none;
 // }
+
+#general-wrapper{
+  width: 640px;
+  margin: 20px auto;
+  overflow:hidden;
+  position: relative;
+  height: 360px;
+}
+
+#display-wrapper, #statistic-wrapper{
+  width: 320px;
+  float:left;
+  height: 100%;
+}
+#display-wrapper{
+  background:#eee;
+}
+#statistic-wrapper{
+  background: #ddd;
+}
+
+
+
+//display
+
+#resume-button{
+  display:none;
+}
+
+#timer{
+  font-size:130%;
+  font-weight:bold;
+  margin: 20px auto;
+  width: 320px;
+}
+
 #sequence-table{
   display:none;
   .current{
     background: #d43;
     color: #def;
   }
+  th{
+    text-align: left;
+  }
 }
 
-#resume-button{
-  display:none;
-}
+
+
+
+
+//statistic
+
+
+

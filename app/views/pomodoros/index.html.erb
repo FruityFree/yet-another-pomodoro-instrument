@@ -6,33 +6,47 @@
   </script>
 <% end %>
 
-<div id="control-buttons">
-  <div id="start-button">
-    <%= link_to "Start new pomodoro", "/pomodoros/start", remote: true %>
-  </div>
-  <div id="pause-button">
-    <%= link_to "Pause", "/pomodoros/pause", remote: true   %>
+
+  <div id="general-wrapper">
+  <div id="display-wrapper">
+    <div id="control-buttons">
+      <div id="start-button">
+        <%= link_to "Start new pomodoro", "/pomodoros/start", remote: true %>
+      </div>
+      <div id="pause-button">
+        <%= link_to "Pause", "/pomodoros/pause", remote: true   %>
+      </div>
+
+      <div id="resume-button">
+        <%= link_to "Resume", "/pomodoros/resume", remote: true %>
+      </div>
+
+      <div id="cancell-button">
+        <%= link_to "Cancel", "/pomodoros/cancel", remote: true %>
+      </div>
+    </div>
+    <div id="timer">
+      Hello
+    </div>
+
+    <table id="sequence-table">
+      <tbody>
+        <tr>
+          <th>Type</th>
+          <th>Duration</th>
+          <th>Start</th>
+          <th>End</th>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div id="resume-button">
-    <%= link_to "Resume", "/pomodoros/resume", remote: true %>
-  </div>
-
-  <div id="cancell-button">
-    <%= link_to "Cancel", "/pomodoros/cancel", remote: true %>
+  <div id="statistic-wrapper">
+    <div>All time: </div>
+    <div><%= @all_time_hours %>h </div>
+    <div>Last 7 days: </div>
+    <div><%= @last_7_days_hours %>h </div>
+    <div>This week: </div>
+    <div><%= @this_week_hours %>h </div>
   </div>
 </div>
-<div id="timer">
-  Hello
-</div>
-
-<table id="sequence-table">
-  <tbody>
-    <tr>
-      <th>Type</th>
-      <th>Duration</th>
-      <th>Start</th>
-      <th>End</th>
-    </tr>
-  </tbody>
-</table>

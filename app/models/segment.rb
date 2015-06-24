@@ -14,25 +14,8 @@ class Segment < ActiveRecord::Base
 
   scope :pomodoros, -> {where(type_name: "Pomodoro")}
   scope :finished, -> {where.not(end_at:nil)}
-
-  def self.count_duration
-    @relation.inject(0){|sum,s| sum+s.duration}
-  end
-
-  def self.count_duration_in_minutes
-    count_duration/60.0
-  end
-
-  def self.count_duration_in_hours
-    count_duration/3600.0
-  end
-
-  # def self.finished
-  #   all.select{|s| !s.end_at.nil?}
-  # end
-
-
-
+  scope :last_7_days, -> {where('start_at > ?', 7.days.ago)}
+  scope :this_week, -> {where('start_at > ?', Date.today.beginning_of_week)}
 
   def self.pomodoro(pomodoro_block_id=nil)
     create( type_name: "Pomodoro",
@@ -51,6 +34,20 @@ class Segment < ActiveRecord::Base
             duration: LONG_BREAK_DURATION,
             pomodoro_block_id: pomodoro_block_id)
   end
+
+
+  def self.all_time_hours
+    (pomodoros.finished.sum(:duration)/3600.0).round(2)
+  end
+
+  def self.last_7_days_hours
+    (pomodoros.finished.last_7_days.sum(:duration)/3600.0).round(2)
+  end
+
+  def self.this_week_hours
+    (pomodoros.finished.this_week.sum(:duration)/3600.0).round(2)
+  end
+
 
   def start
     update_attributes(start_at: DateTime.now)

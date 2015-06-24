@@ -4,6 +4,9 @@ class PomodorosController < ApplicationController
       pb = PomodoroBlock.active_pomodoro
       @restore_data = pb.restore_data
       @sequence = pb.sequence
+      @all_time_hours = Segment.all_time_hours
+      @last_7_days_hours = Segment.last_7_days_hours
+      @this_week_hours = Segment.this_week_hours
     end
   end
 
