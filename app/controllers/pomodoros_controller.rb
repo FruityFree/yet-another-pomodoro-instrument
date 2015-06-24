@@ -7,6 +7,7 @@ class PomodorosController < ApplicationController
       @all_time_hours = Segment.all_time_hours
       @last_7_days_hours = Segment.last_7_days_hours
       @this_week_hours = Segment.this_week_hours
+      @today_hours = Segment.today_hours
     end
   end
 

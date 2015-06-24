@@ -16,6 +16,7 @@ class Segment < ActiveRecord::Base
   scope :finished, -> {where.not(end_at:nil)}
   scope :last_7_days, -> {where('start_at > ?', 7.days.ago)}
   scope :this_week, -> {where('start_at > ?', Date.today.beginning_of_week)}
+  scope :today, -> {where('start_at > ?', Date.today)}
 
   def self.pomodoro(pomodoro_block_id=nil)
     create( type_name: "Pomodoro",
@@ -46,6 +47,10 @@ class Segment < ActiveRecord::Base
 
   def self.this_week_hours
     (pomodoros.finished.this_week.sum(:duration)/3600.0).round(2)
+  end
+
+  def self.today_hours
+    (pomodoros.finished.today.sum(:duration)/3600.0).round(2)
   end
 
 
