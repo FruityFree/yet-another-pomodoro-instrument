@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150608144332) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "pauses", force: true do |t|
     t.datetime "start_at"
     t.datetime "end_at"
