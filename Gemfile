@@ -4,19 +4,22 @@ group :development do
   gem 'guard'
 end
 
+
+
 group  :test do
   gem 'spring-commands-rspec'
   gem 'guard-rspec'
   gem "factory_girl_rails", "~> 4.0"
   gem 'timecop'
 end
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.0'
 end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.8'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -25,6 +28,17 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
+
+group :development do
+    gem 'capistrano',         require: false
+    gem 'capistrano-rbenv',     require: false
+    gem 'capistrano-rails',   require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano3-puma',   require: false
+end
+
+gem 'puma'
+
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

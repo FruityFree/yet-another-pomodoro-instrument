@@ -1,9 +1,9 @@
 class Segment < ActiveRecord::Base
   belongs_to :pomodoro_block
 
-  POMODORO_DURATION   = 1500
-  BREAK_DURATION      = 300
-  LONG_BREAK_DURATION = 900
+  POMODORO_DURATION   = 3000
+  BREAK_DURATION      = 600
+  LONG_BREAK_DURATION = 1200
 
   #FOR TEST
   # POMODORO_DURATION   = 5

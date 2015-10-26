@@ -1,0 +1,19 @@
+
+default: &default
+  adapter: postgresql
+  encoding: utf-8
+  username: 
+  password: 
+
+development:
+  <<: *default
+  database: pomodoro_development
+
+test:
+  <<: *default
+  database: pomodoro_test
+
+production:
+  <<: *default
+  database: pomodoro_production
+  pool: 35

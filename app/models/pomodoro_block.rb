@@ -1,5 +1,5 @@
 class PomodoroBlock < ActiveRecord::Base
-  has_many :segments
+  has_many :segments, -> { order(:id)}
   before_create :cancel_previous
   after_create :attach_segments
 
@@ -53,6 +53,7 @@ class PomodoroBlock < ActiveRecord::Base
 
     now = DateTime.now
     segments.each_with_index do |segment, i|
+      p segment
       expected_end = segment.start_at + segment.full_duration.seconds
       if expected_end > now
         break
